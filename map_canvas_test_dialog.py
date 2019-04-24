@@ -51,13 +51,10 @@ class MapCanvasTestDialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
+        layerPath = QgsApplication.instance().pkgDataPath() + '/resources/data/world_map.shp'
+        self.mapLayers = [QgsVectorLayer(layerPath)]
 
     def show(self):
-        super().show()
-        layerPath = QgsApplication.instance().pkgDataPath() + '/resources/data/world_map.shp'
-        mLayers = [QgsVectorLayer(layerPath)]
-        self.mAreaCanvas.setLayers(mLayers)
+        self.mAreaCanvas.setLayers(self.mapLayers)
         self.mAreaCanvas.zoomToFullExtent()
-
-        # XXX Map appears and disappears. Appears for longer the second time.
-        self.mAreaCanvas.waitWhileRendering()
+        super().show()
